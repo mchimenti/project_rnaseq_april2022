@@ -265,7 +265,7 @@ res_cont_d2_d1 <- as.data.frame(results(dds,contrast = c('group','cont_d2','cont
 ## Table of top DE genes 
 res_cont_d2_d1_sig <- res_cont_d2_d1 %>% 
   arrange(padj) %>% 
-  filter(padj < 0.001) %>% 
+  filter(padj < 0.01) %>% 
   dplyr::select(c(padj, baseMean, log2FoldChange)) %>% 
   mutate(across(c(1:3), ~round(.x, digits=3)))
   
@@ -287,7 +287,7 @@ res_ko_d2_d1 <- as.data.frame(results(dds,contrast = c('group','ko_d2','ko_d1'))
 ## Table of top DE genes 
 res_ko_d2_d1_sig <- res_ko_d2_d1 %>% 
   arrange(padj) %>% 
-  filter(padj < 0.001) %>% 
+  filter(padj < 0.01) %>% 
   dplyr::select(c(padj, baseMean, log2FoldChange)) %>% 
   mutate(across(c(1:3), ~round(.x, digits=3)))
   
@@ -352,7 +352,16 @@ write.csv(res_KO_Day0_sig, here("data","DEGs_KO_WT_Day0_sig_p1Em5.csv"))
 write.csv(res_KO_Day1_sig, here("data","DEGs_KO_WT_Day1_sig_p1Em5.csv"))
 write.csv(res_KO_Day2_sig, here("data","DEGs_KO_WT_Day2_sig_p1Em5.csv"))
 write.csv(res_interact_sig, here("data","DEGs_Geno_Day_Interact_sig_p1Em2.csv"))
+#####
+write.csv(res_KO_Day0, here("data","DEGs_KO_WT_Day0.csv"))
+write.csv(res_KO_Day1, here("data","DEGs_KO_WT_Day1.csv"))
+write.csv(res_KO_Day2, here("data","DEGs_KO_WT_Day2.csv"))
+write.csv(res_cont_d2_d1, here("data","DEGs_WT_Day2_v_Day1.csv"))
+write.csv(res_ko_d2_d1, here("data","DEGs_KO_Day2_v_Day1.csv"))
 
+write.csv(res_interact_sig, here("data","DEGs_Geno_Day_Interact_sig_p1Em2.csv"))
+
+####
 res_KO_Day0$gene_name <- rownames(res_KO_Day0)
 write_delim(x=res_KO_Day0, file=here("data","res_KO_Day0_foriPath.tsv"), delim = '\t')
 
@@ -361,6 +370,12 @@ write_delim(x=res_KO_Day1, file=here("data","res_KO_Day1_foriPath.tsv"), delim =
 
 res_KO_Day2$gene_name <- rownames(res_KO_Day2)
 write_delim(x=res_KO_Day2, file=here("data","res_KO_Day2_foriPath.tsv"), delim = '\t')
+
+res_cont_d2_d1$gene_name <- rownames(res_cont_d2_d1)
+write_delim(x=res_cont_d2_d1, file=here("data","res_cont_D2_D1_foriPath.tsv"), delim = '\t')
+
+res_ko_d2_d1$gene_name <- rownames(res_ko_d2_d1)
+write_delim(x=res_ko_d2_d1, file=here("data","res_ko_D2_D1_foriPath.tsv"), delim = '\t')
 
 res_interact$gene_name <- rownames(res_interact)
 write_delim(x=as.data.frame(res_interact), file=here("data","res_interact_foriPath.tsv"), delim = '\t')
